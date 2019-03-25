@@ -21,6 +21,8 @@
 
 * Spring
     - Implementado a rotina de gerenciamento de Company.
+    - Implementado a rotina de gerenciamento de Action.
+    - Implementado a rotina de gerenciamento de Investor.
 
 * RabbitMQ
     - Servidor responsável por gerenciar a fila de requisições da aplicação.
@@ -31,12 +33,12 @@
 ## Artefatos entregues
 
 ## Configurações de envio de e-mail
-* Informar o email e senha do gmail no arquivo .env na raiz da aplicação e habilitar o envio de email no gmail.
+* Informar o "email" e "senha" do gmail no arquivo .env na raiz da aplicação e habilitar o envio de email no gmail.
 
 ## Subindo a aplicação
 * build
     - Fazer o checkout do repositório e entrar no mesmo.
-    - Rodar o comando 'docker-compose up -d'
+    - Rodar o comando 'docker-compose up --build -d'
 
 ## Acessando a aplicação
 * Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html/ para a documentação'
