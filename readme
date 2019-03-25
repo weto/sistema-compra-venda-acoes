@@ -38,6 +38,7 @@
 ## Subindo a aplicação
 * build
     - Fazer o checkout do repositório e entrar no mesmo.
+    - Configurar o email na aplicação.
     - Rodar o comando 'docker-compose up --build -d'
 
 ## Acessando a aplicação
