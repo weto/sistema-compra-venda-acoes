@@ -1,0 +1,50 @@
+version: '3.0'
+services:
+  rabbitmq_ma:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    container_name: rabbitmq-management
+    ports:
+      - 5671:5671
+      - 15672:15672
+    environment:
+    - RABBITMQ_USERNAME=guest
+    - RABBITMQ_PASSWORD=guest
+    - RABBITMQ_VHOST=/
+    - RABBITMQ_NODE_PORT_NUMBER=5672
+  mongo_ma:
+    image: mongo
+    container_name: api_mongo
+    ports:
+      - 27017:27017
+  mongo_express_ma:
+    image: mongo-express
+    container_name: client_mongo
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=api_mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=mongodb-company
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo_ma
+    links:
+      - mongo_ma
+  api_ma:
+    build: .
+    container_name: api
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://api_mongo:27017/mongodb-company
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+    depends_on:
+      - mongo_ma
+      - rabbitmq_ma
+    ports:
+      - 8080:8080
+    links:
+      - mongo_ma
+      - rabbitmq_ma

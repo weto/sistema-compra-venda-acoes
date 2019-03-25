@@ -1,0 +1,52 @@
+## Introdução
+1. Serviços de mercado de ações. 
+
+## Requisitos de tecnologia
+
+* O sistema deverá tratar da compra de ações para pessoas físicas.
+- Uma Empresa possui um número limitado de ações para serem vendidas;
+- As Empresas podem emitir novas ações porém não podemos diminuir o número de ações atuais;
+- Cada ação pode pertencer a somente um Comprador;
+- Uma Ação deve possuir a informação de quando foi comprada e de qual seu valor inicial e atual, juntamente das informações do seu Comprador;
+- Um Comprador pode possuir várias Ações;
+- O sistema precisa tratar de forma assíncrona a compra e venda das Ações;
+- Durante uma compra ou venda, seu Comprador antigo e o novo precisam receber um email com a informação adequada sobre a operação;
+
+
+## Sobre o Projeto
+* Foi utilizado as seguintes tecnologias:
+    - Docker como container
+    - Spring, MongoDB e RabbitMQ.
+
+* Spring
+    - Implementado a rotina de gerenciamento de Company.
+
+* RabbitMQ
+    - Servidor responsável por gerenciar a fila de requisições da aplicação.
+    - https://hub.docker.com/_/rabbitmq
+
+## Artefatos entregues
+
+## Configurações de envio de e-mail
+* Informar o email e senha do gmail no arquivo .env na raiz da aplicação e habilitar o envio de email no gmail.
+
+
+## Subindo a aplicação
+* build
+    - Fazer o checkout do repositório e entrar no mesmo.
+    - Rodar o comando 'docker-compose up -d'
+
+## Acessando a aplicação
+* Com o container rodando acessar o endereço 'http://localhost:8080/api/v1/companies'
+* Com o container rodando acessar o endereço 'http://localhost:27017/ para o banco de dados'
+* Com o container rodando acessar o endereço 'http://localhost:15672/ para o administrador do RappidMQ'
+* Com o container rodando acessar o endereço 'http://localhost:8081/db/mongodb-company/ para o cliente (Mongo-Express) do MongoDB'
+* Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html/ para a documentação'
+
+
+## Acessando container do MongoDB
+* Rodar o comando docker exec -it <IDCONTAINER> /bin/sh
+* Rodar o comando mongo para entrar no banco de dados
+* Rodar o comando show dbs para listar os bancos de dados
+* Rodar o comando use mongodb-company
+* db.company.find({})
