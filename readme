@@ -16,7 +16,8 @@
 ## Sobre o Projeto
 * Foi utilizado as seguintes tecnologias:
     - Docker como container
-    - Spring, MongoDB e RabbitMQ.
+    - Spring, MongoDB, Mongo Express e RabbitMQ.
+    - Envio de email.
 
 * Spring
     - Implementado a rotina de gerenciamento de Company.
@@ -24,12 +25,13 @@
 * RabbitMQ
     - Servidor responsável por gerenciar a fila de requisições da aplicação.
     - https://hub.docker.com/_/rabbitmq
+* Mongo Express    
+    - Container responsável pela interface do MongoDB.    
 
 ## Artefatos entregues
 
 ## Configurações de envio de e-mail
 * Informar o email e senha do gmail no arquivo .env na raiz da aplicação e habilitar o envio de email no gmail.
-
 
 ## Subindo a aplicação
 * build
@@ -37,16 +39,7 @@
     - Rodar o comando 'docker-compose up -d'
 
 ## Acessando a aplicação
-* Com o container rodando acessar o endereço 'http://localhost:8080/api/v1/companies'
+* Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html/ para a documentação'
 * Com o container rodando acessar o endereço 'http://localhost:27017/ para o banco de dados'
 * Com o container rodando acessar o endereço 'http://localhost:15672/ para o administrador do RappidMQ'
-* Com o container rodando acessar o endereço 'http://localhost:8081/db/mongodb-company/ para o cliente (Mongo-Express) do MongoDB'
-* Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html/ para a documentação'
-
-
-## Acessando container do MongoDB
-* Rodar o comando docker exec -it <IDCONTAINER> /bin/sh
-* Rodar o comando mongo para entrar no banco de dados
-* Rodar o comando show dbs para listar os bancos de dados
-* Rodar o comando use mongodb-company
-* db.company.find({})
+* Com o container rodando acessar o endereço 'http://localhost:8081/ para o cliente (Mongo-Express) do MongoDB'
