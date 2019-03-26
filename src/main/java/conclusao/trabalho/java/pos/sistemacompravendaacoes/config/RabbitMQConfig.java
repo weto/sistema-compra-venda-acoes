@@ -24,12 +24,37 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
 	public static final String QUEUE_MESSAGES = "messages-queue";
     public static final String EXCHANGE_MESSAGES = "messages-exchange";
     public static final String QUEUE_DEAD_MESSAGES = "dead-messages-queue";
+    public static final String QUEUE_BUY_MESSAGES = "messages-buy-queue";
+    public static final String EXCHANGE_BUY_MESSAGES = "messages-buy-exchange";
+    public static final String QUEUE_DEAD_BUY_MESSAGES = "dead-messages-buy-queue";
+    public static final String QUEUE_SELL_MESSAGES = "messages-sell-queue";
+    public static final String EXCHANGE_SELL_MESSAGES = "messages-sell-exchange";
+    public static final String QUEUE_DEAD_SELL_MESSAGES = "dead-messages-sell-queue";
+    
  
     @Bean
     Queue messagesQueue() {
     	return QueueBuilder.durable(QUEUE_MESSAGES)
                 .withArgument("x-dead-letter-exchange", "")
                 .withArgument("x-dead-letter-routing-key", QUEUE_DEAD_MESSAGES)
+                .withArgument("x-message-ttl", 15000) //if message is not consumed in 15 seconds send to DLQ
+                .build();
+    }
+    
+    @Bean
+    Queue messagesBuyQueue() {
+    	return QueueBuilder.durable(QUEUE_BUY_MESSAGES)
+                .withArgument("x-dead-letter-exchange", "")
+                .withArgument("x-dead-letter-routing-key", QUEUE_BUY_MESSAGES)
+                .withArgument("x-message-ttl", 60000) //if message is not consumed in 60 seconds send to DLQ
+                .build();
+    }
+
+    @Bean
+    Queue messagesSellQueue() {
+    	return QueueBuilder.durable(QUEUE_SELL_MESSAGES)
+                .withArgument("x-dead-letter-exchange", "")
+                .withArgument("x-dead-letter-routing-key", QUEUE_SELL_MESSAGES)
                 .withArgument("x-message-ttl", 15000) //if message is not consumed in 15 seconds send to DLQ
                 .build();
     }
@@ -47,6 +72,27 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
     @Bean
     Binding binding(Queue messagesQueue, TopicExchange messagesExchange) {
         return BindingBuilder.bind(messagesQueue).to(messagesExchange).with(QUEUE_MESSAGES);
+    }
+    
+ 
+    @Bean
+    Queue deadMessagesBuyQueue() {
+        return QueueBuilder.durable(QUEUE_DEAD_BUY_MESSAGES).build();
+    }
+ 
+    @Bean
+    Exchange messagesBuyExchange() {
+        return ExchangeBuilder.topicExchange(EXCHANGE_BUY_MESSAGES).build();
+    }
+    
+    @Bean
+    Queue deadMessagesSellQueue() {
+        return QueueBuilder.durable(QUEUE_DEAD_SELL_MESSAGES).build();
+    }
+ 
+    @Bean
+    Exchange messagesSellExchange() {
+        return ExchangeBuilder.topicExchange(EXCHANGE_SELL_MESSAGES).build();
     }
     
     @Bean

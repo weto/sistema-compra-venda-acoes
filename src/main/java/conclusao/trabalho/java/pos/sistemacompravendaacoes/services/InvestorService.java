@@ -21,4 +21,5 @@ public interface InvestorService {
 	List<Company> getActionByInvestor(Investor investor);
 
 	List<Company> getActionCompanyByInvestor(String id, String nameCompany);
+	
 }

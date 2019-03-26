@@ -1,14 +1,17 @@
 package conclusao.trabalho.java.pos.sistemacompravendaacoes.services;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Action;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
@@ -91,6 +94,7 @@ public class ActionServiceImpl implements ActionService {
 		
 		for (int i = 0; i < numberActions; i++) {
 			Action action = new Action();
+			action.setId(null);
 			action.setOwner(companyTemp.getName());
 			action.setSell("true");
 			action.setValue(((Action) companyTemp.getActions().get(0)).getValue());
@@ -103,39 +107,8 @@ public class ActionServiceImpl implements ActionService {
 	@Override
 	public void sellActionByInvestor(Sell sell) {
 		List<Company> companies = companyService.getByCompanyInvestor(sell.getNameCompany(), sell.getNameInvestor());
-		
-		companies.iterator().forEachRemaining(company -> {
-			List<Action> actions = company.getActions().stream()
-				.filter((action) -> {
-					if(action.getId()!=null) {
-
-						String email = action.getInvestor().getEmail();
-						String value = action.getValue();
-
-						action = new Action();
-						action.setId(null);
-						action.setSell("true");
-						action.setOwner(company.getName());
-						action.setInvestor(null);
-
-						Message messageInvestor = new Message();
-						messageInvestor.setBody("A ação foi vendida pelo valor de R$ " + value);
-						messageInvestor.setEmail(email);
-						messageInvestor.setSubject("Venda de Ação da Empresa " + company.getName());
-						messageService.sendMessage(messageInvestor);
-
-						Message messageCompany = new Message();
-						messageCompany.setBody("A ação foi comprada pelo valor de R$ " + value);
-						messageCompany.setEmail(email);
-						messageCompany.setSubject("Compra de Ação da Empresa " + company.getName());
-						messageService.sendMessage(messageCompany);
-					}
-					return true;
-				})
-				.collect(Collectors.toList());
-			company.setActions(actions);
-			companyRepository.save(company);
-		});
+		//messageService.sendSell(companies);
+		this.sendMessageSell(companies);
 	}
 
 	@Override
@@ -148,33 +121,87 @@ public class ActionServiceImpl implements ActionService {
 			throw new IllegalArgumentException("No action to buy from company");
 		}
 		
-		companies.iterator().forEachRemaining(company -> {
-			List<Action> actions = company.getActions().stream()
-				.filter((action) -> {
-					if(action.getId()==null) {
-						action.setSell("false");
-						action.setOwner(investors.get(0).getName());
-						action.setInvestor(investors.get(0));
-						actionRepository.save(action);
-						
-						Message messageInvestor = new Message();
-						messageInvestor.setBody("A ação foi comprada pelo valor de R$ " + action.getValue());
-						messageInvestor.setEmail(investors.get(0).getEmail());
-						messageInvestor.setSubject("Compra de Ação da Empresa " + company.getName());
-						messageService.sendMessage(messageInvestor);
-
-						Message messageCompany = new Message();
-						messageCompany.setBody("A ação foi vendida pelo valor de R$ " + action.getValue());
-						messageCompany.setEmail(investors.get(0).getEmail());
-						messageCompany.setSubject("Venda de Ação da Empresa " + company.getName());
-						messageService.sendMessage(messageCompany);
-					}
-					return true;
-				})
-				.collect(Collectors.toList());
-			company.setActions(actions);
-			companyRepository.save(company);
-		});
+		for (Company company : companies) {
+			for (Action action : company.getActions()) {
+				if(action.getId()==null) {
+					action.setSell("false");
+					action.setOwner(investors.get(0).getName());
+					action.setInvestor(investors.get(0));
+					break;
+				}
+			};
+		};
+		
+		this.sendMessageBuy(companies);
+		//messageService.sendBuy(companies);
 	}
 
+	@Override
+	public void sendMessageSell(List<Company> companies) {
+		System.out.println("[####################################buySaveBySellBuy inicio##################################]");
+
+		int positionCompany = 0;
+		int positionAction = 0;
+
+		for (Company company : companies) {
+			for (Action action : company.getActions()) {
+				if(action.getId()!=null) {
+					String email = action.getInvestor().getEmail();
+					String value = action.getValue();
+
+					action = new Action();
+					action.setId(null);
+					action.setSell("true");
+					action.setOwner(company.getName());
+					action.setInvestor(null);
+					action.setValue(value);
+					companies.get(positionCompany).getActions().set(positionAction, action);
+
+					Message messageInvestor = new Message();
+					messageInvestor.setBody("A ação foi vendida pelo valor de R$ " + value);
+					messageInvestor.setEmail(email);
+					messageInvestor.setSubject("Venda de Ação da Empresa " + company.getName());
+					//messageService.sendMessage(messageInvestor);
+
+					Message messageCompany = new Message();
+					messageCompany.setBody("A ação foi comprada pelo valor de R$ " + value);
+					messageCompany.setEmail(email);
+					messageCompany.setSubject("Compra de Ação da Empresa " + company.getName());
+					//messageService.sendMessage(messageCompany);
+				}
+				positionAction++;
+			}
+			positionCompany++;
+			companyRepository.save(company);
+		}
+
+		System.out.println("[####################################buySaveBySellBuy fim#####################################]");
+	}
+
+	@Override
+	public void sendMessageBuy(List<Company> companies) {
+		
+		System.out.println("[sendMessageBuy]");
+		for (Company company : companies) {
+			for (Action action : company.getActions()) {
+				if(action.getId()==null) {
+					actionRepository.save(action);
+					
+					Message messageInvestor = new Message();
+					messageInvestor.setBody("A ação foi comprada pelo valor de R$ " + action.getValue());
+					messageInvestor.setEmail(company.getActions().get(0).getInvestor().getEmail());
+					messageInvestor.setSubject("Compra de Ação da Empresa " + company.getName());
+					//messageService.sendMessage(messageInvestor);
+
+					Message messageCompany = new Message();
+					messageCompany.setBody("A ação foi vendida pelo valor de R$ " + action.getValue());
+					messageCompany.setEmail(company.getActions().get(0).getInvestor().getEmail());
+					messageCompany.setSubject("Venda de Ação da Empresa " + company.getName());
+					//messageService.sendMessage(messageCompany);
+				}
+			};
+			
+			companyRepository.save(company);
+		}
+	}
 }
