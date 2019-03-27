@@ -3,6 +3,8 @@ package conclusao.trabalho.java.pos.sistemacompravendaacoes.controllers;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.ActionService;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.InvestorService;
 import io.swagger.annotations.ApiOperation;
@@ -47,28 +48,28 @@ public class InvestorController {
 	@GetMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Get Investor by Id")
-    public Investor getById(@PathVariable String id){
+    public Investor getById(@Valid @PathVariable String id){
         return investorService.getInvestorById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Create a new Investor")
-    public Investor create(@RequestBody Investor investor){
+    public Investor create(@Valid @RequestBody Investor investor){
         return investorService.createNewInvestor(investor);
     }
 
     @PutMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Update a new Investor")
-    public Investor updateInvestor(@PathVariable String id, @RequestBody Investor investor){
+    public Investor updateInvestor(@Valid @PathVariable String id, @RequestBody Investor investor){
         return investorService.saveInvestor(id, investor);
     }
 
     @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Delete a new Investor")
-    public void deleteInvestor(@PathVariable String id){
+    public void deleteInvestor(@Valid @PathVariable String id){
     	investorService.deleteInvestorById(id);
     }
 
@@ -83,21 +84,21 @@ public class InvestorController {
 	@GetMapping({"/{id}/company/{name}"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Search actions company by investor")
-    public List<Company> getActionCompanyByInvestor(@PathVariable String id, @PathVariable String name){
+    public List<Company> getActionCompanyByInvestor(@Valid @PathVariable String id, @PathVariable String name){
 		return investorService.getActionCompanyByInvestor(id, name);
     }
 
     @PostMapping({"/{id}/sell"})
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Sell a Action by Investor")
-    public void sellActionByCompany(@PathVariable String id, @RequestBody SellP sellP){
+    public void sellActionByCompany(@Valid @PathVariable String id, @RequestBody Sell sellP){
         actionService.sellActionByInvestor(id, sellP);
     }
 
     @PostMapping({"/{id}/buyAction"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Buy a Action by Investor")
-    public void buyAction(@PathVariable String id, @RequestBody SellP sellP){
+    public void buyAction(@Valid @PathVariable String id, @RequestBody Sell sellP){
     	actionService.buyActionAllByInvestor(id, sellP);
     }
 }

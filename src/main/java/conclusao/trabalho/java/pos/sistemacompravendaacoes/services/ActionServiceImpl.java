@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +15,6 @@ import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.repositories.ActionRepository;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.repositories.CompanyRepository;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.repositories.InvestorRepository;
@@ -103,21 +101,20 @@ public class ActionServiceImpl implements ActionService {
 	}
 
 	@Override
-	public void sellActionByInvestor(String id, SellP sellp) {
+	public void sellActionByInvestor(String id, Sell sellp) {
 		this.validSendSell(sellp);
-		this.sendMessageSell(sellp);
 		messageService.sendSell(sellp);
 	}
 
 	@Override
-	public void buyActionAllByInvestor(String id, SellP sellp) {
+	public void buyActionAllByInvestor(String id, Sell sellp) {
 		this.validSendSell(sellp);
 		this.sendMessageBuy(sellp);
 		messageService.sendBuy(sellp);
 	}
 
 	@Override
-	public void sendMessageSell(SellP sellp) {
+	public void sendMessageSell(Sell sellp) {
 		
 		Optional<Investor> investorOptional = investorRepository.findById(sellp.getId());
 		if(!investorOptional.isPresent()) {
@@ -138,6 +135,7 @@ public class ActionServiceImpl implements ActionService {
 				action = new Action();
 				action.setId(null);
 				action.setSell("true");
+				action.setValue(value);
 				action.setOwner(companyOptional.get().getName());
 				action.setInvestor(null);
 				
@@ -162,7 +160,7 @@ public class ActionServiceImpl implements ActionService {
 	}
 
 	@Override
-	public void sendMessageBuy(SellP sellp) {
+	public void sendMessageBuy(Sell sellp) {
 		
 		Optional<Investor> investorOptional = investorRepository.findById(sellp.getId());
 		if(!investorOptional.isPresent()) {
@@ -201,7 +199,7 @@ public class ActionServiceImpl implements ActionService {
 	}
 
 	@Override
-	public boolean validSendSell(SellP sellp) {
+	public boolean validSendSell(Sell sellp) {
 		Optional<Investor> investorOptional = investorRepository.findById(sellp.getId());
 		if(!investorOptional.isPresent()) {
 			throw new IllegalArgumentException("Not Found ID Investor");

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.MessageService;
 
 @RestController
@@ -29,18 +28,4 @@ public class MessageController {
 		messageService.sendMessage(message);
         return "Message sent";
     }
-
-	/*@PostMapping({"/buy"})
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createNewBuy(@RequestBody Sell sell){
-		messageService.sendBuy(sell);
-        return "Message buy sent";
-    }
-
-	@PostMapping({"/sell"})
-    @ResponseStatus(HttpStatus.CREATED)
-    public String createNewSell(@RequestBody Sell sell){
-		messageService.sendSell(sell);
-        return "Message Sell sent";
-    }*/
 }

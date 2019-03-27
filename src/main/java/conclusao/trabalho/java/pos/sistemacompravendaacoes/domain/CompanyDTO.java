@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SellP {
+public class CompanyDTO {
 
 	private String id;
-	private String idCompany;
-	
+    private String name;
+
 }

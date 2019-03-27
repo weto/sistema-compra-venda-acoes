@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.config.EmailConfig;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.config.RabbitMQConfig;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.ActionService;
 
 @Component
@@ -44,13 +44,13 @@ public class MessageListener {
     }
     
     @RabbitListener(queues = RabbitMQConfig.QUEUE_BUY_MESSAGES)
-    public void processBuy(SellP sellp) {
+    public void processBuy(Sell sellp) {
     	logger.info("Message Buy Received");
     	actionService.sendMessageBuy(sellp);
     }
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_SELL_MESSAGES)
-    public void processSell(SellP sellp) {
+    public void processSell(Sell sellp) {
     	logger.info("Message Sell Received");
     	actionService.sendMessageSell(sellp);
     }

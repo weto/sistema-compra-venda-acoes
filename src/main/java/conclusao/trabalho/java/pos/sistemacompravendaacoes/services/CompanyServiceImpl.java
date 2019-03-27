@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Action;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.CompanyDTO;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.repositories.CompanyRepository;
 
@@ -48,7 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Company createNewCompany(Company company) {
-		if(companyRepository.findByName(company.getName()).isEmpty()) {
+		if(this.validData(company) && companyRepository.findByName(company.getName()).isEmpty()) {
 			Company companySaved = companyRepository.save(company);
 			return companySaved;
 		} else {
@@ -58,14 +59,21 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Company saveCompany(String id, Company company) {
+	public Company saveCompany(String id, CompanyDTO companyDTO) {
+		Company company = new Company();
 		company.setId(id);
+		company.setName(companyDTO.getName());
+		this.validData(company);
 		return companyRepository.save(company);
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteCompanyById(String id) {
+		Optional<Company> companyOptional = companyRepository.findById(id);
+		if(!companyOptional.isPresent()) {
+			throw new IllegalArgumentException("Not Found Company ID " + id);
+		}
 		companyRepository.deleteById(id);
 	}
 
@@ -121,6 +129,21 @@ public class CompanyServiceImpl implements CompanyService {
 			company.setActions(actions);
 		});
 		return companies;
+	}
+
+	@Override
+	public Company updateCompany(String id, Company company) {
+		this.validData(company);
+		company.setId(id);
+		return companyRepository.save(company);
+	}
+
+	@Override
+	public boolean validData(Company company) {
+		if(company.getName()==null) {
+			throw new IllegalArgumentException("Company Not Found Name");
+		}
+		return true;
 	}
 
 }

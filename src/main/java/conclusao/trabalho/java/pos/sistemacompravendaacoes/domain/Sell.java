@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Sell {
-	
-	private String nameInvestor;
-	private String nameCompany;
+
+	private String id;
+	private String idCompany;
 	
 }

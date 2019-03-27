@@ -45,7 +45,7 @@ public class InvestorServiceImpl implements InvestorService {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Investor createNewInvestor(Investor investor) {
-		if(investorRepository.findByName(investor.getName()) != null) {
+		if(this.validData(investor) && investorRepository.findByName(investor.getName()) != null) {
 			Investor investorSaved = investorRepository.save(investor);
 			return investorSaved;
 		} else {
@@ -56,18 +56,17 @@ public class InvestorServiceImpl implements InvestorService {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Investor saveInvestor(String id, Investor investor) {
+		this.validData(investor);
+
 		investor.setId(id);
-		
 		Optional<Investor> investorOptional = investorRepository.findById(id);
-		
 		if(!investorOptional.isPresent()) {
 			throw new IllegalArgumentException("Investor Not Found ID");
 		}
 		
 		List<Company> companies = companyService.getUpdateByActionInvestor(investorOptional.get(), investor);
-		
 		companies.forEach(company -> {
-			companyService.saveCompany(company.getId(), company);
+			companyService.updateCompany(company.getId(), company);
 		});
 		
 		return investorRepository.save(investor);
@@ -101,6 +100,17 @@ public class InvestorServiceImpl implements InvestorService {
 			throw new IllegalArgumentException("Investor Not Found ID");
 		}
 		return companyService.getByCompanyInvestor(nameCompany, investorOptional.get().getName());
+	}
+
+	@Override
+	public boolean validData(Investor investor) {
+		if(investor.getName()==null) {
+			throw new IllegalArgumentException("Investor Not Found Name");
+		}
+		if(investor.getEmail()==null) {
+			throw new IllegalArgumentException("Investor Not Found Email");
+		}
+		return true;
 	}
 
 }

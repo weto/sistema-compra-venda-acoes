@@ -1,16 +1,9 @@
 package conclusao.trabalho.java.pos.sistemacompravendaacoes.services;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Action;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 
 public interface ActionService {
 	
@@ -26,14 +19,14 @@ public interface ActionService {
 
 	void deleteActionById(String id);
 	
-	void sellActionByInvestor(String id, SellP sellp);
+	void sellActionByInvestor(String id, Sell sellp);
 
-	void buyActionAllByInvestor(String id, SellP sellP);
+	void buyActionAllByInvestor(String id, Sell sellP);
 
-	void sendMessageBuy(SellP sellp);
+	void sendMessageBuy(Sell sellp);
 
-	void sendMessageSell(SellP sellp);
+	void sendMessageSell(Sell sellp);
 	
-	boolean validSendSell(SellP sellp);
+	boolean validSendSell(Sell sellp);
 	
 }

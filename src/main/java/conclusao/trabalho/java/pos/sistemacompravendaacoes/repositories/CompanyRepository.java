@@ -22,5 +22,5 @@ public interface CompanyRepository extends MongoRepository<Company, String> {
 
 	@Query(value = "{'actions.investor.name': ?0}}")
 	List<Company> findByActionInvestor(String name);
-
+	
 }

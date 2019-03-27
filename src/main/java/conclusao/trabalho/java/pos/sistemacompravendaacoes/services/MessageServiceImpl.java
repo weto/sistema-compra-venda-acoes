@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.config.RabbitMQConfig;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
 
 @Service
 public class MessageServiceImpl implements MessageService{
@@ -22,12 +22,12 @@ public class MessageServiceImpl implements MessageService{
     }
 
 	@Override
-	public void sendBuy(SellP sellp) {
+	public void sendBuy(Sell sellp) {
         this.rabbitTemplate.convertAndSend(RabbitMQConfig.QUEUE_BUY_MESSAGES, sellp);
 	}
 
 	@Override
-	public void sendSell(SellP sellp) {
+	public void sendSell(Sell sellp) {
         this.rabbitTemplate.convertAndSend(RabbitMQConfig.QUEUE_SELL_MESSAGES, sellp);
 	}
 }

@@ -12,6 +12,8 @@ public interface InvestorService {
 	
 	Investor getInvestorById(String id);
 	
+	boolean validData(Investor investor);
+	
 	Investor createNewInvestor(Investor Investor);
 
 	Investor saveInvestor(String id, Investor Investor);

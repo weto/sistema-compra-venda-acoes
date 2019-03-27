@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.CompanyDTO;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.ActionService;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.CompanyService;
 import io.swagger.annotations.ApiOperation;
@@ -57,8 +58,8 @@ public class CompanyController {
 	@PutMapping({"/{id}"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Update an existing Company")
-    public Company updateCompany(@PathVariable String id, @RequestBody Company Company){
-        return companyService.saveCompany(id, Company);
+    public Company updateCompany(@PathVariable String id, @RequestBody CompanyDTO companyDTO){
+        return companyService.saveCompany(id, companyDTO);
     }
 
 	@DeleteMapping({"/{id}"})

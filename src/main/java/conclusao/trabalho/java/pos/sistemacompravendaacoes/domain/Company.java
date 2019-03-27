@@ -16,7 +16,9 @@ public class Company {
 	
 	@Id
 	private String id;
+	
     private String name;
-    private List<Action> actions = new ArrayList<>();
+
+	private List<Action> actions = new ArrayList<>();
     
 }
