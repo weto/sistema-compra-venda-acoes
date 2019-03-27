@@ -33,8 +33,6 @@
     - Container responsável pela interface do MongoDB.    
 
 * Swagger
-    - https://hub.docker.com/_/mongo-express
-    - Container responsável pela interface do MongoDB.    
 
 ## Artefatos entregues
 
