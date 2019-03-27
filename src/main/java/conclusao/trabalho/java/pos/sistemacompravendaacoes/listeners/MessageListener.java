@@ -1,8 +1,5 @@
 package conclusao.trabalho.java.pos.sistemacompravendaacoes.listeners;
 
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -11,15 +8,14 @@ import org.springframework.stereotype.Component;
 
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.config.EmailConfig;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.config.RabbitMQConfig;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.ActionService;
 
 @Component
 public class MessageListener {
 
-	/*static final Logger logger = LoggerFactory.getLogger(MessageListener.class);
+	static final Logger logger = LoggerFactory.getLogger(MessageListener.class);
 
 	@Value("${EMAIL_USER}")
 	private String EMAIL_USER;
@@ -48,14 +44,14 @@ public class MessageListener {
     }
     
     @RabbitListener(queues = RabbitMQConfig.QUEUE_BUY_MESSAGES)
-    public void processBuy(List<Company> companies) {
+    public void processBuy(SellP sellp) {
     	logger.info("Message Buy Received");
-    	actionService.sendMessageBuy(companies);
+    	actionService.sendMessageBuy(sellp);
     }
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_SELL_MESSAGES)
-    public void processSell(List<Company> companies) {
+    public void processSell(SellP sellp) {
     	logger.info("Message Sell Received");
-    	actionService.sendMessageSell(companies);
-    }*/
+    	actionService.sendMessageSell(sellp);
+    }
 }

@@ -11,7 +11,7 @@ public interface CompanyService {
 	Set<Company> getAll();
 	
 	Company getCompanyById(String id);
-
+	
 	Company createNewCompany(Company company);
 
 	Company saveCompany(String id, Company company);

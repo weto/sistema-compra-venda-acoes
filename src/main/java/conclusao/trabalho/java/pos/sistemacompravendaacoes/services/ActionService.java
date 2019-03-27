@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Action;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 
 public interface ActionService {
 	
@@ -23,12 +26,14 @@ public interface ActionService {
 
 	void deleteActionById(String id);
 	
-	void sellActionByInvestor(Sell sell);
+	void sellActionByInvestor(String id, SellP sellp);
 
-	void buyActionAllByInvestor(Sell sell);
+	void buyActionAllByInvestor(String id, SellP sellP);
 
-	void sendMessageBuy(List<Company> companies);
+	void sendMessageBuy(SellP sellp);
 
-	void sendMessageSell(List<Company> companies);
+	void sendMessageSell(SellP sellp);
+	
+	boolean validSendSell(SellP sellp);
 	
 }

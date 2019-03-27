@@ -1,17 +1,13 @@
 package conclusao.trabalho.java.pos.sistemacompravendaacoes.services;
 
-import java.util.List;
-import java.util.Map;
-
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
-import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Message;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 
 public interface MessageService {
 
 	void sendMessage(Message message);
 	
-	void sendBuy(List<Company> companies);
+	void sendBuy(SellP sellP);
 
-	void sendSell(List<Company> companies);
+	void sendSell(SellP sellP);
 }

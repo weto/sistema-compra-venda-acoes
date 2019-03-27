@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Company;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Investor;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.Sell;
+import conclusao.trabalho.java.pos.sistemacompravendaacoes.domain.SellP;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.ActionService;
 import conclusao.trabalho.java.pos.sistemacompravendaacoes.services.InvestorService;
 import io.swagger.annotations.ApiOperation;
@@ -86,17 +87,17 @@ public class InvestorController {
 		return investorService.getActionCompanyByInvestor(id, name);
     }
 
-    @PostMapping({"/sell"})
+    @PostMapping({"/{id}/sell"})
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Sell a Action by Investor")
-    public void sellActionByCompany(@RequestBody Sell sell){
-        actionService.sellActionByInvestor(sell);
+    public void sellActionByCompany(@PathVariable String id, @RequestBody SellP sellP){
+        actionService.sellActionByInvestor(id, sellP);
     }
 
-    @PostMapping({"/buyAction"})
+    @PostMapping({"/{id}/buyAction"})
     @ResponseStatus(HttpStatus.OK)
 	@ApiOperation(value = "Buy a Action by Investor")
-    public void buyAction(@RequestBody Sell sell){
-    	actionService.buyActionAllByInvestor(sell);
+    public void buyAction(@PathVariable String id, @RequestBody SellP sellP){
+    	actionService.buyActionAllByInvestor(id, sellP);
     }
 }
