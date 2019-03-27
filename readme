@@ -27,7 +27,13 @@
 * RabbitMQ
     - Servidor responsável por gerenciar a fila de requisições da aplicação.
     - https://hub.docker.com/_/rabbitmq
-* Mongo Express    
+    
+* Mongo Express
+    - https://hub.docker.com/_/mongo-express
+    - Container responsável pela interface do MongoDB.    
+
+* Swagger
+    - https://hub.docker.com/_/mongo-express
     - Container responsável pela interface do MongoDB.    
 
 ## Artefatos entregues
@@ -42,7 +48,13 @@
     - Rodar o comando 'docker-compose up --build -d'
 
 ## Acessando a aplicação
-* Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html/ para a documentação'
-* Com o container rodando acessar o endereço 'http://localhost:27017/ para o banco de dados'
-* Com o container rodando acessar o endereço 'http://localhost:15672/ para o administrador do RappidMQ'
-* Com o container rodando acessar o endereço 'http://localhost:8081/ para o cliente (Mongo-Express) do MongoDB'
+* Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html' para a documentação
+* Com o container rodando acessar o endereço 'http://localhost:27017' para o banco de dados
+* Com o container rodando acessar o endereço 'http://localhost:15672' para o administrador do RappidMQ
+* Com o container rodando acessar o endereço 'http://localhost:8081' para o cliente (Mongo-Express) do MongoDB
+
+## Utilizando a aplicação
+* Somente a Empresa pode lançar ou comprar ações dos investidores,
+* Para o investidor comprar uma ação tem que ter ações disponibilizadas no mercado da empresa,
+
+
