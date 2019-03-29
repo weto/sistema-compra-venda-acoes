@@ -52,7 +52,12 @@
 * Com o container rodando acessar o endereço 'http://localhost:8081' para o cliente (Mongo-Express) do MongoDB
 
 ## Utilizando a aplicação
-* Somente a Empresa pode lançar ou comprar ações dos investidores,
-* Para o investidor comprar uma ação tem que ter ações disponibilizadas no mercado da empresa,
+* Somente a Empresa pode lançar ou comprar ações dos investidores, e uma empresa somente compra uma ação quando o investidor deseja vender a ação.
+* Para o investidor comprar uma ação tem que ter ações disponibilizadas no mercado da empresa
+
+## Iniciando o processo de compra e venda de ações
+* Com a Empresa cadastrada, a Empresa lança ações informando o id da empresa e o número de ações que deseja lançar no mercado.
+* Com as ações disponibilizadas, o investidor compra a ação informando o id do investidor e o nome da empresa que deseja comprar a ação.
+* Com o investidor querendo vender as ações, o investidor seleciona o id do investidor e o nome da empresa que deseja vender as ações.
 
 
