@@ -48,7 +48,7 @@
 ## Acessando a aplicação
 * Com o container rodando acessar o endereço 'http://localhost:8080/swagger-ui.html' para a documentação
 * Com o container rodando acessar o endereço 'http://localhost:27017' para o banco de dados
-* Com o container rodando acessar o endereço 'http://localhost:15672' para o administrador do RappidMQ
+* Com o container rodando acessar o endereço 'http://localhost:15672' para o administrador do RabbidMQ
 * Com o container rodando acessar o endereço 'http://localhost:8081' para o cliente (Mongo-Express) do MongoDB
 
 ## Utilizando a aplicação
